@@ -1,0 +1,95 @@
+/* Main CSS file - imports all component styles */
+@import './theme.css';
+@import './components.css';
+@import './loading.css';
+@import './sidebar.css';
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility classes */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .container-main {
+    padding: var(--space-lg) var(--space-md);
+  }
+  
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-lg);
+  }
+  
+  .message-bubble-question,
+  .message-bubble-answer {
+    max-width: 90%;
+  }
+  
+  .sidebar {
+    width: 240px;
+  }
+  
+  .sidebar-paper {
+    width: 240px;
+  }
+}
+
