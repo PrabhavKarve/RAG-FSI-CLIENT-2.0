@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import ReactMarkdown from "react-markdown"
 import {
   Box,
   Typography,
@@ -95,11 +96,19 @@ export default function MainContent({ activeSection, companyMetrics, metricsLoad
 
     try {
       const { data } = await askQuery({ variables: { question } })
+      const rawAnswer = data?.askQuestion || "No answer returned."
+
+      const formatRes = await fetch("/api/format", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: rawAnswer }),
+      })
+      const { formatted } = await formatRes.json()
 
       const newMessage = {
         id: currentMessages.length + 1,
         question: question,
-        answer: data?.askQuestion || "No answer returned.",
+        answer: formatted,
       }
 
       setCurrentMessages([...currentMessages, newMessage])
@@ -183,7 +192,7 @@ export default function MainContent({ activeSection, companyMetrics, metricsLoad
 
           {/* Example Messages */}
           <MessageContainer>
-            {homeMessages.map((message) => (
+            {[...homeMessages].reverse().map((message) => (
               <Box key={message.id} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 {/* Question */}
                 <MessageQuestionContainer>
@@ -197,9 +206,7 @@ export default function MainContent({ activeSection, companyMetrics, metricsLoad
                 {/* Answer */}
                 <MessageAnswerContainer>
                   <MessageBubbleAnswer>
-                    <MessageTextAnswer variant="body1">
-                      {message.answer}
-                    </MessageTextAnswer>
+                    <ReactMarkdown>{message.answer}</ReactMarkdown>
                   </MessageBubbleAnswer>
                 </MessageAnswerContainer>
               </Box>
@@ -396,7 +403,7 @@ export default function MainContent({ activeSection, companyMetrics, metricsLoad
             }}>
               Q&A History for {getSectionTitle()}
             </Typography>
-            {companyMessages.map((message) => (
+            {[...companyMessages].reverse().map((message) => (
               <Box key={message.id} sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 {/* Question */}
                 <MessageQuestionContainer>
@@ -410,9 +417,7 @@ export default function MainContent({ activeSection, companyMetrics, metricsLoad
                 {/* Answer */}
                 <MessageAnswerContainer>
                   <MessageBubbleAnswer>
-                    <MessageTextAnswer variant="body1">
-                      {message.answer}
-                    </MessageTextAnswer>
+                    <ReactMarkdown>{message.answer}</ReactMarkdown>
                   </MessageBubbleAnswer>
                 </MessageAnswerContainer>
               </Box>
