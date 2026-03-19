@@ -103,10 +103,7 @@ export default function MainContent({ activeSection, companyMetrics, metricsLoad
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: rawAnswer }),
       })
-      const formatData = await formatRes.json()
-      console.log("Format API response:", formatData)
-      alert("Format API response: " + JSON.stringify(formatData))
-      const { formatted } = formatData
+      const { formatted } = await formatRes.json()
 
       const newMessage = {
         id: currentMessages.length + 1,
